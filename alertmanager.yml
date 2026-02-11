@@ -1,0 +1,16 @@
+global:
+  smtp_smarthost: "smtp.gmail.com:587"
+  smtp_from: "shanmugasundharam1623@gmail.com"
+  smtp_auth_username: "shanmugasundharam1623@gmail.com"
+  smtp_auth_password: "qtyj aear gcou xusy"
+  smtp_require_tls: true
+
+route:
+  receiver: "gmail-alert"
+
+receivers:
+  - name: "gmail-alert"
+    email_configs:
+      - to: "shanmugasundharam1623@gmail.com"
+        send_resolved: true
+
