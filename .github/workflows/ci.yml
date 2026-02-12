@@ -1,0 +1,40 @@
+name: Docker Monitoring CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  validate-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout Repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: YAML Validation
+      - name: Validate YAML Files
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y yamllint
+          yamllint .
+
+      # Step 3: Docker Compose Validation
+      - name: Validate Docker Compose File
+        run: |
+          docker compose config
+
+      # Step 4: Run Docker Compose Stack (Test)
+      - name: Start Monitoring Stack
+        run: |
+          docker compose up -d
+          sleep 10
+          docker ps
+
+      # Step 5: Cleanup Containers
+      - name: Stop Stack
+        run: |
+          docker compose down
